@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountryData</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Kings&family=Luxurious+Script&family=Ubuntu+Mono:wght@700&display=swap');
+
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    html,body{
+        height: 100%;
+    }
+    .card-title {
+        text-align: center;
+        color: #E52B50;
+        font-family: 'Kings', cursive;
+        font-size: x-large;
+    }
+
+    .top-left {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+    }
+
+    h2 {
+        color: rgb(32, 226, 161);
+        font-family: 'Luxurious Script', cursive;
+        font-size: 220%;
+    }
+
+    #second {
+        position: absolute;
+        top: 116px;
+        left: -8px;
+    }
+
+    .form-control {
+        background-color: rgb(231, 207, 175);
+    }
+
+    span {
+        font-family: 'Ubuntu Mono', monospace;
+        color:  	#000080;
+    }
+    #backimage{
+        height: 100%;
+        background: url("./Images/maria-stewart-g6DmKxFoQfE-unsplash.jpg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+</style>
+
+<body>
+    <!-- <img src="./Images/maria-stewart-g6DmKxFoQfE-unsplash.jpg" style="background-size: contain;" class="img-fluid"
+        alt="getLost"> -->
+        <div id="backimage">
+
+        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="top-left col-8">
+                <h2 class="text-center">Fetch Country Details</h2>
+                <div class="input-group">
+                    <input type="text" id="cntry_name" class="form-control text-center"
+                        placeholder="Enter Country Name">
+                    <button class="btn btn-primary" type="button" onclick="getData()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <div id="second" class="row">
+        <div class="col"></div>
+        <div class="col-10" id="result">
+
+        </div>
+        <div class="col"></div>
+    </div>
+</body>
+<script>
+
+    function getData() {
+        let countryName = cntry_name.value;
+        fetch(`https://restcountries.com/v2/name/${countryName}?fullText=true`).then(res => res.json()).then(data => displayValues(data))
+    }
+
+    function displayValues(country_data) {
+        let countryName = country_data[0].name
+        let population = country_data[0].population
+        let capital = country_data[0].capital
+        let currency = country_data[0].currencies[0].name
+        let currencySymbol = country_data[0].currencies[0].symbol
+        let flag = country_data[0].flag
+
+        let html_data = `
+    <div class="card" style="width: 16rem;">
+  <img src="${flag}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">${countryName}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><span>Population:</span> ${population}</li>
+    <li class="list-group-item"><span>Capital:</span> ${capital}</li>
+    <li class="list-group-item"><span>Currency Name:</span> ${currency}</li>
+    <li class="list-group-item"><span>Currency Symbol:</span> ${currencySymbol}</li>
+  </ul>
+</div>
+    `
+        document.querySelector("#result").innerHTML = html_data
+    }
+
+</script>
+
+</html>
